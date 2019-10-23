@@ -68,8 +68,7 @@ RUN \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
-  apt-get install sbt && \
-  sbt sbtVersion
+  apt-get install sbt
 
 VOLUME /var/lib/docker
 # Configure SSH
