@@ -61,16 +61,19 @@ RUN set -ex \
     && chmod +x /usr/local/bin/dind /usr/local/bin/docker-compose \
 # Ensure docker-compose works
     && docker-compose version
-
+    
+VOLUME /var/lib/docker
 # Install sbt
 RUN \
   curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
-  apt-get install sbt
+  apt-get install sbt 
 
-VOLUME /var/lib/docker
+# Install awscli
+RUN pip3 install awscli
+
 # Configure SSH
 COPY ssh_config /root/.ssh/config
 
