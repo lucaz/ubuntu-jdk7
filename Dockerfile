@@ -1,11 +1,11 @@
-FROM openjdk:7-jre-slim
+FROM openjdk:7
 
 ENV PYTHON_VERSION="3.7.4" \
  JAVA_VERSION=7 \
  DOCKER_VERSION="18.09.6" \
  DOCKER_COMPOSE_VERSION="1.24.0"
 
-ARG CHINA_REGION
+ARG SBT_VERSION=0.12.4
 
 #****************        Utilities     *********************************************
 ENV DOCKER_BUCKET="download.docker.com" \
@@ -61,6 +61,14 @@ RUN set -ex \
     && chmod +x /usr/local/bin/dind /usr/local/bin/docker-compose \
 # Ensure docker-compose works
     && docker-compose version
+
+# Install sbt
+RUN \
+  curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
+  dpkg -i sbt-$SBT_VERSION.deb && \
+  rm sbt-$SBT_VERSION.deb && \
+  apt-get update && \
+  apt-get install sbt
 
 VOLUME /var/lib/docker
 # Configure SSH
